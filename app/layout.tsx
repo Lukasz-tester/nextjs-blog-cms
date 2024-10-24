@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { Fira_Code } from "next/font/google"
+import Provider from "./utils/Provider";
+import Navbar from "./components/Navbar";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const firaCode = Fira_Code({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${firaCode.className} h-full bg-amber-100 text-indigo-950 dark:bg-slate-950 dark:text-amber-100 dark:selection:bg-purple-500`}>
+        <Provider>
+        <Navbar /> 
+        <main className="mx-auto max-w-5xl px-6">
         {children}
+        </main>
+        </Provider>
       </body>
     </html>
   );
