@@ -1,10 +1,40 @@
+import { client } from "@/sanity/lib/client";
+import Header from "../components/Header";
+import { Post } from "@/app/utils/Interface";
+import PostComponent from "../components/PostComponent";
 
-export default function Home() {
+async function getPosts() {
+  const query = `
+  *[_type == "post"] {
+    title,
+    slug,
+    publishedAt,
+    excerpt,
+    _id,
+    tags[]-> {
+      _id,
+      slug,
+      name
+      }
+}`;
+  const data = await client.fetch(query);
+  return data;
+}
+
+export const revalidate = 60; // reload page every 60 seconds
+
+export default async function Home() {
+  const posts: Post[] = await getPosts();
+  // console.log(posts, "these are posts");
   return (
     <div>
-      <h1>
-        jojojofr
-      </h1>
+      <Header title="Artiiiiclesuuu" />
+      <div>
+        {posts?.length > 0 &&
+          posts?.map((post) => (
+          <PostComponent key={post._id} post={post} /> //post={post} - we are sending props
+          ))}
+      </div>
     </div>
   );
 }

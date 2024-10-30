@@ -43,5 +43,11 @@ export const post = {
         },
       ],
     },
+    {
+      name: "tags",
+      title: "Tags",
+      type: "array", //array as we may have multiple tags for each post
+      of: [{ type: "reference", to: [{ type: "tag" }] }] //array of type:ref... as we are referencing the post to type:tag (tag.ts > tag > name: "tag")
+    }
   ],
 };
